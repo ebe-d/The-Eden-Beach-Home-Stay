@@ -55,8 +55,13 @@ export function shouldUseSecureCookie(request: Request): boolean {
 
 function getSessionSecret(): string | null {
   const secret = process.env.ADMIN_SESSION_SECRET?.trim();
-  if (!secret || secret.length < 16) return null;
-  return secret;
+  if (secret && secret.length >= 16) return secret;
+  // Fallback safely to a deterministic session secret derived from credentials if hosting provider strips ADMIN_SESSION_SECRET
+  const fallbackSource = process.env.ADMIN_PASSWORD_HASH || process.env.ADMIN_PASSWORD || process.env.DATABASE_URL;
+  if (fallbackSource && fallbackSource.length >= 8) {
+    return crypto.createHash("sha256").update(`eden_admin_session_${fallbackSource}`).digest("hex");
+  }
+  return null;
 }
 
 export function isAdminAuthConfigured(): {
