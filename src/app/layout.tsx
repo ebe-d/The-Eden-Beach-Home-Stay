@@ -34,6 +34,16 @@ export const metadata: Metadata = {
     "Murdeshwar accommodation 581350",
     "Bhatkal to Gokarna coastal stay",
   ],
+  icons: {
+    icon: [
+      { url: "/brand/eden-emblem.png", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    shortcut: "/brand/eden-emblem.png",
+    apple: [
+      { url: "/brand/eden-emblem.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
 };
 
 const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem('eden-theme');var d=t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d)document.documentElement.classList.add('dark');}catch(e){}})();`;
