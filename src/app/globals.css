@@ -1,26 +1,405 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  /* Brand Theme: Embossed Gold on Oceanic Midnight Navy & Sunlit Warm Sand */
+  --eden-brand-gold: #c5a059;
+  --eden-brand-gold-light: #dfba73;
+  --eden-brand-gold-shimmer: #f3e5ab;
+  --eden-brand-gold-dark: #9e7a32;
+  --eden-brand-navy: #0b1320;
+  --eden-brand-navy-deep: #060b14;
+  --eden-brand-navy-surface: #0f1a2d;
+
+  /* Backward-compatible Canva palette tokens remapped to Luxury Gold & Navy */
+  --canva-forest: #070d18;
+  --canva-forest-deep: #050912;
+  --canva-olive: #0e1829;
+  --canva-olive-dark: #0a1220;
+  --canva-sage: #2a3c58;
+  --canva-camel: #c5a059;
+  --canva-camel-hover: #dfba73;
+  --canva-sand: #f5efe6;
+  --canva-cream: #faf7f2;
+  --canva-charcoal: #0b1320;
+
+  /* DAY MODE (Sunlit coastal pearl sand & crisp white with metallic gold and deep navy) */
+  --eden-bg: #faf7f2;
+  --eden-surface: #ffffff;
+  --eden-inset: #f3ede2;
+  --eden-input: #ffffff;
+  --eden-pill: rgba(255, 255, 255, 0.94);
+  --eden-border: rgba(197, 160, 89, 0.26);
+  --eden-line: rgba(11, 19, 32, 0.08);
+  --eden-ink: #0b1320;
+  --eden-ink-soft: #24344d;
+  --eden-muted: #5e6f88;
+  --eden-btn: #b88e3e;
+  --eden-btn-hover: #9e772e;
+  --eden-btn-text: #ffffff;
+  --eden-blue: #0b1320;
+  --eden-peach: #c5a059;
+  --eden-gold: #c5a059;
+  --eden-shadow: 0 16px 40px -22px rgba(11, 19, 32, 0.1);
+}
+
+.dark {
+  color-scheme: dark;
+  /* Backward-compatible Canva dark tokens remapped to Luxury Midnight Navy & Gold */
+  --canva-forest: #050912;
+  --canva-forest-deep: #03060c;
+  --canva-olive: #0b1422;
+  --canva-olive-dark: #070d18;
+  --canva-sage: #dfba73;
+  --canva-camel: #c5a059;
+  --canva-camel-hover: #dfba73;
+  --canva-sand: #121e31;
+  --canva-cream: #070d18;
+  --canva-charcoal: #f8fafc;
+
+  /* NIGHT MODE (The exact visual identity of the embossed gold on deep textured midnight navy card) */
+  --eden-bg: #070d18;
+  --eden-surface: #0e1829;
+  --eden-inset: #142238;
+  --eden-input: #0a1220;
+  --eden-pill: rgba(14, 24, 41, 0.94);
+  --eden-border: rgba(197, 160, 89, 0.28);
+  --eden-line: rgba(212, 175, 55, 0.16);
+  --eden-ink: #f8fafc;
+  --eden-ink-soft: #cbd5e1;
+  --eden-muted: #8d9eb5;
+  --eden-btn: #c5a059;
+  --eden-btn-hover: #dfba73;
+  --eden-btn-text: #070d18;
+  --eden-blue: #dfba73;
+  --eden-peach: #c5a059;
+  --eden-gold: #dfba73;
+  --eden-shadow: 0 24px 50px -18px rgba(0, 0, 0, 0.75), 0 0 25px -8px rgba(197, 160, 89, 0.14);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-canva-forest: var(--canva-forest);
+  --color-canva-forest-deep: var(--canva-forest-deep);
+  --color-canva-olive: var(--canva-olive);
+  --color-canva-olive-dark: var(--canva-olive-dark);
+  --color-canva-sage: var(--canva-sage);
+  --color-canva-camel: var(--canva-camel);
+  --color-canva-camel-hover: var(--canva-camel-hover);
+  --color-canva-sand: var(--canva-sand);
+  --color-canva-cream: var(--canva-cream);
+  --color-canva-charcoal: var(--canva-charcoal);
+
+  --color-powder-blue: var(--eden-blue);
+  --color-powder-blue-deep: var(--eden-ink-soft);
+  --color-lavender-white: var(--eden-bg);
+  --color-sunset-peach: var(--eden-peach);
+  --color-sunset-peach-deep: var(--eden-btn-hover);
+
+  --color-eden-bg: var(--eden-bg);
+  --color-eden-surface: var(--eden-surface);
+  --color-eden-inset: var(--eden-inset);
+  --color-eden-input: var(--eden-input);
+  --color-eden-ink: var(--eden-ink);
+  --color-eden-soft: var(--eden-ink-soft);
+  --color-eden-muted: var(--eden-muted);
+  --color-eden-btn: var(--eden-btn);
+  --color-eden-btn-hover: var(--eden-btn-hover);
+  --color-eden-btn-ink: var(--eden-btn-text);
+  --color-eden-blue: var(--eden-blue);
+  --color-eden-peach: var(--eden-peach);
+  --color-eden-gold: var(--eden-gold);
+  --color-eden-line: var(--eden-line);
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cormorant), Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+  background-color: var(--eden-bg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--eden-bg);
+  color: var(--eden-ink);
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  overflow-x: clip;
+  transition: background-color 0.22s ease, color 0.22s ease;
+}
+
+/* Unified surface tokens so every card & section shares one calm cool shade */
+.glass-card,
+.glass-card-soft {
+  background-color: var(--eden-surface);
+  border: 1px solid var(--eden-border);
+  box-shadow: var(--eden-shadow);
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.glass-pill,
+.glass-dock {
+  background-color: var(--eden-pill);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--eden-border);
+  box-shadow: var(--eden-shadow);
+  transition:
+    background-color 0.22s ease,
+    border-color 0.22s ease;
+}
+
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes fadeUpIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroSlowZoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.07);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes subtleShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(0.98);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fadeUpIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-hero-zoom {
+  animation: heroSlowZoom 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.animate-pulse-gentle {
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+/* Premium interactive card & image hover transitions */
+.interactive-card {
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease,
+    background-color 0.22s ease;
+}
+
+.interactive-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(28, 42, 69, 0.16);
+}
+
+.dark .interactive-card:hover {
+  box-shadow: 0 24px 50px -15px rgba(0, 0, 0, 0.55);
+}
+
+/* Image zoom inside overflow-hidden wrappers */
+.zoom-image-wrapper {
+  overflow: hidden;
+}
+
+.zoom-image {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.group:hover .zoom-image,
+.zoom-image-wrapper:hover .zoom-image {
+  transform: scale(1.06);
+}
+
+/* Button & CTA click/press micro-interactions */
+.btn-interactive {
+  transition:
+    transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    opacity 0.2s ease;
+  will-change: transform;
+}
+
+.btn-interactive:hover {
+  transform: translateY(-1.5px);
+}
+
+.btn-interactive:active {
+  transform: translateY(0.5px) scale(0.98);
+}
+
+/* Luxury Brand Styling Utilities (Embossed Gold & Midnight Navy) */
+.canva-btn-camel,
+.eden-btn-gold {
+  background: linear-gradient(135deg, #dfba73 0%, #c5a059 50%, #b88e3e 100%);
+  color: #080e1a;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.85rem;
+  border-radius: 9999px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 18px rgba(197, 160, 89, 0.35);
+  border: 1px solid rgba(243, 229, 171, 0.35);
+}
+
+.canva-btn-camel:not(.hidden):not(.block):not(.flex),
+.eden-btn-gold:not(.hidden):not(.block):not(.flex) {
+  display: inline-flex;
+}
+
+.canva-btn-camel:hover,
+.eden-btn-gold:hover {
+  background: linear-gradient(135deg, #f3e5ab 0%, #dfba73 50%, #c5a059 100%);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 24px rgba(197, 160, 89, 0.5);
+  color: #050912;
+}
+
+.canva-btn-outline-white {
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.85rem;
+  border-radius: 9999px;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.25s ease;
+}
+
+.canva-btn-outline-white:not(.hidden):not(.block):not(.flex) {
+  display: inline-flex;
+}
+
+.canva-btn-outline-white:hover {
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1.5px);
+}
+
+.canva-btn-outline-camel,
+.eden-btn-outline-gold {
+  background-color: transparent;
+  color: #c5a059;
+  border: 1px solid rgba(197, 160, 89, 0.7);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.85rem;
+  border-radius: 9999px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.canva-btn-outline-camel:not(.hidden):not(.block):not(.flex),
+.eden-btn-outline-gold:not(.hidden):not(.block):not(.flex) {
+  display: inline-flex;
+}
+
+.canva-btn-outline-camel:hover,
+.eden-btn-outline-gold:hover {
+  background: linear-gradient(135deg, #dfba73 0%, #c5a059 100%);
+  color: #080e1a;
+  border-color: #dfba73;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 18px rgba(197, 160, 89, 0.35);
+}
+
+.canva-card-olive,
+.canva-card-forest,
+.eden-card-navy {
+  background: linear-gradient(180deg, #0e1829 0%, #070d18 100%);
+  border: 1px solid rgba(197, 160, 89, 0.25);
+  color: #f8fafc;
+}
+
+.gold-gradient-text {
+  background: linear-gradient(135deg, #f3e5ab 0%, #dfba73 35%, #c5a059 70%, #9e7a32 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Comprehensive prefers-reduced-motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-float-slow,
+  .animate-fade-up,
+  .animate-hero-zoom,
+  .animate-pulse-gentle {
+    animation: none !important;
+  }
+  .interactive-card:hover,
+  .btn-interactive:hover,
+  .btn-interactive:active,
+  .group:hover .zoom-image,
+  .zoom-image-wrapper:hover .zoom-image {
+    transform: none !important;
+  }
 }
