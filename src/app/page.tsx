@@ -4,12 +4,9 @@ import {
   ArrowRight,
   Bath,
   BedDouble,
-  Coffee,
   Compass,
   MapPin,
-  Sparkles,
   Users,
-  Waves,
 } from "lucide-react";
 import { AccommodationShowcase } from "@/components/AccommodationShowcase";
 import { BookingEnquiryForm } from "@/components/BookingEnquiryForm";
@@ -21,7 +18,6 @@ import { HeroQuickEnquiryCard } from "@/components/HeroQuickEnquiryCard";
 import { HomestayIntroduction } from "@/components/HomestayIntroduction";
 import {
   BookYourStayButton,
-  CustomQuoteButton,
   WhatsappButton,
 } from "@/components/WhatsappButton";
 import {
@@ -66,8 +62,10 @@ export default async function HomePage() {
     ]);
 
   const jsonLd = buildLodgingJsonLd(settings);
+  const primaryRoom = rooms && rooms.length > 0 ? rooms[0] : null;
   const heroBg =
     homepage?.heroImageUrl ||
+    primaryRoom?.imageUrl ||
     gallery.find((g) => g.category === "Beachfront Views")?.imageUrl ||
     HERO_STOCK_IMAGE;
 
@@ -79,7 +77,7 @@ export default async function HomePage() {
       />
 
       {/* 1. HERO SECTION: Cinematic background zoom & luxury hotel typography */}
-      <section className="relative overflow-hidden rounded-[32px] border border-[#C5A059]/30 shadow-2xl bg-[#070D18]">
+      <section className="relative overflow-hidden rounded-[32px] border border-canva-camel/30 shadow-2xl bg-canva-forest">
         <div className="relative min-h-[580px] sm:min-h-[660px] lg:min-h-[720px]">
           {/* Zooming Coastal Background */}
           <div className="absolute inset-0 overflow-hidden">
@@ -96,18 +94,18 @@ export default async function HomePage() {
           {/* Deep Ocean Midnight + Warm Vignette Atmospheric Wash */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-gradient-to-t from-[#070D18] via-[#070D18]/65 to-black/40"
+            className="absolute inset-0 bg-gradient-to-t from-canva-forest via-canva-forest/65 to-black/40"
           />
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-radial from-transparent via-[#070D18]/30 to-[#070D18]/85"
+            className="absolute inset-0 bg-radial from-transparent via-canva-forest/30 to-canva-forest/85"
           />
 
           <div className="relative z-10 flex min-h-[580px] flex-col justify-between p-6 sm:min-h-[660px] sm:p-10 md:p-12 lg:min-h-[720px] lg:p-16">
             {/* Top Brand Tag & Editorial Serif Headline */}
             <HeroCopyEntrance className="max-w-3xl pt-2 sm:pt-4">
-              <div className="inline-flex items-center gap-2.5 rounded-full bg-black/40 border border-[#C5A059]/30 py-1 px-3 backdrop-blur-md">
-                <div className="relative h-6 w-6 shrink-0 overflow-hidden rounded-full border border-[#C5A059]/50 bg-[#070D18]">
+              <div className="inline-flex items-center gap-2.5 rounded-full bg-black/40 border border-canva-camel/30 py-1 px-3 backdrop-blur-md">
+                <div className="relative h-6 w-6 shrink-0 overflow-hidden rounded-full border border-canva-camel/50 bg-canva-forest">
                   <Image
                     src="/brand/eden-emblem.png"
                     alt="The Eden Emblem"
@@ -117,26 +115,31 @@ export default async function HomePage() {
                     priority
                   />
                 </div>
-                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#DFBA73] sm:text-xs">
+                <span className="text-[11px] font-bold uppercase tracking-[0.22em] text-canva-camel sm:text-xs">
                   The Eden Beach Home Stay
                 </span>
                 <span className="hidden text-[11px] text-[#F5F2EB]/80 sm:inline font-medium">
-                  • Stay • Relax • Unwind
+                  • Bailur | Murudeshwar
                 </span>
               </div>
 
               {/* Exact Required Headline in Cormorant Garamond Serif */}
               <h1 className="mt-4 font-serif text-4xl sm:text-5xl lg:text-[4rem] font-medium leading-[1.08] tracking-tight text-white">
-                {homepage?.heroTitle || "Your Peaceful Beachfront Escape in Murdeshwar."}
+                {homepage?.heroTitle ||
+                  "Your Peaceful Beachfront Escape in Murdeshwar."}
               </h1>
 
               {/* Exact Required Supporting Text */}
               <p className="mt-4 font-serif text-xl sm:text-2xl font-normal text-[#F5F2EB]/95 italic">
-                {homepage?.heroSubtitle || "Stay by the sea. Slow down. Make memories."}
+                {homepage?.heroSubtitle ||
+                  "Stay by the sea. Slow down. Make memories."}
               </p>
 
               <p className="mt-3 max-w-xl text-xs sm:text-sm leading-relaxed text-[#F5F2EB]/80">
-                One private beachfront room for up to 4 guests at the intersection of Bailur Beach Road, Christiankeri. Peaceful doorstep access to Tudalli Beach and just minutes from Murudeshwar Temple.
+                One private beachfront room for up to 4 guests at the
+                intersection of Bailur Beach Road, Christiankeri. Peaceful
+                doorstep access to Tudalli Beach and just minutes from
+                Murudeshwar Temple.
               </p>
 
               {/* Prominent Action Buttons */}
@@ -168,21 +171,21 @@ export default async function HomePage() {
                 <div className="rounded-[26px] border border-white/15 bg-black/50 p-5 text-white backdrop-blur-md shadow-xl">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#C5A059]">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-canva-camel">
                         Private Beachfront Sanctuary
                       </span>
                       <h2 className="font-serif text-lg font-bold tracking-tight text-white mt-0.5">
-                        The Eden Beachfront Room
+                        {primaryRoom?.name || "The Eden Beachfront Room"}
                       </h2>
                       <p className="mt-1 flex items-center gap-1.5 text-xs text-[#F5F2EB]/75">
-                        <MapPin className="h-3.5 w-3.5 text-[#C5A059]" />
-                        <span>Bailur Beach Road, Murudeshwar</span>
+                        <MapPin className="h-3.5 w-3.5 text-canva-camel" />
+                        <span>{settings.addressLine}</span>
                       </p>
                     </div>
                     <Link
                       href="/stay"
                       aria-label="Inspect room details"
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#C5A059] text-[#070D18] shadow-sm transition-transform duration-200 hover:scale-110"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-canva-camel text-[#070D18] font-bold shadow-sm transition-transform duration-200 hover:scale-110"
                     >
                       <ArrowRight className="h-4 w-4" />
                     </Link>
@@ -190,27 +193,37 @@ export default async function HomePage() {
 
                   <div className="mt-4 grid grid-cols-3 gap-2 border-y border-white/10 py-3 text-center text-xs">
                     <div>
-                      <BedDouble className="mx-auto h-4 w-4 text-[#C5A059]" />
-                      <div className="mt-1 font-bold text-white">2 + 2 Beds</div>
+                      <BedDouble className="mx-auto h-4 w-4 text-canva-camel" />
+                      <div className="mt-1 font-bold text-white">
+                        {primaryRoom?.bedInfo || "2 + 2 Beds"}
+                      </div>
                       <div className="text-[10px] text-[#F5F2EB]/70">1 Room</div>
                     </div>
                     <div className="border-x border-white/10">
-                      <Bath className="mx-auto h-4 w-4 text-[#C5A059]" />
+                      <Bath className="mx-auto h-4 w-4 text-canva-camel" />
                       <div className="mt-1 font-bold text-white">Attached</div>
-                      <div className="text-[10px] text-[#F5F2EB]/70">Private Bath</div>
+                      <div className="text-[10px] text-[#F5F2EB]/70">
+                        Private Bath
+                      </div>
                     </div>
                     <div>
-                      <Users className="mx-auto h-4 w-4 text-[#C5A059]" />
-                      <div className="mt-1 font-bold text-white">Max 4</div>
-                      <div className="text-[10px] text-[#F5F2EB]/70">AC & Wi-Fi</div>
+                      <Users className="mx-auto h-4 w-4 text-canva-camel" />
+                      <div className="mt-1 font-bold text-white">
+                        Max {primaryRoom?.capacityGuests || 4}
+                      </div>
+                      <div className="text-[10px] text-[#F5F2EB]/70">
+                        AC & Wi-Fi
+                      </div>
                     </div>
                   </div>
 
                   <div className="mt-4 flex items-center justify-between text-xs">
-                    <span className="text-[#F5F2EB]/75">Tariffs on enquiry</span>
+                    <span className="text-[#F5F2EB]/75">
+                      {primaryRoom?.pricingNote || "Tariffs on enquiry"}
+                    </span>
                     <Link
                       href="/stay"
-                      className="font-bold uppercase tracking-wider text-[#C5A059] hover:underline"
+                      className="font-bold uppercase tracking-wider text-canva-camel hover:underline"
                     >
                       Room Details →
                     </Link>
@@ -238,9 +251,9 @@ export default async function HomePage() {
       {homepage?.sectionsVisibility.rooms !== false && (
         <section className="space-y-6">
           <ScrollReveal>
-            <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[#C5A059]/20 pb-4">
+            <div className="flex flex-wrap items-end justify-between gap-4 border-b border-canva-camel/20 pb-4">
               <div>
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#C5A059] block mb-1">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-canva-camel block mb-1">
                   Accommodation Showcase
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight text-eden-ink">
@@ -248,7 +261,8 @@ export default async function HomePage() {
                 </h2>
               </div>
               <p className="max-w-md text-xs sm:text-sm text-eden-muted">
-                One exclusive room with 2 main beds + up to 2 optional add-on beds, accommodating up to 4 guests by the Arabian Sea.
+                One exclusive room with 2 main beds + up to 2 optional add-on
+                beds, accommodating up to 4 guests by the Arabian Sea.
               </p>
             </div>
           </ScrollReveal>
@@ -266,9 +280,9 @@ export default async function HomePage() {
       {/* 4. FACILITIES & AMENITIES */}
       <section className="space-y-6">
         <ScrollReveal>
-          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[#C5A059]/20 pb-4">
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-canva-camel/20 pb-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#C5A059] block mb-1">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-canva-camel block mb-1">
                 Thoughtful Amenities
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-medium tracking-tight text-eden-ink">
@@ -277,7 +291,7 @@ export default async function HomePage() {
             </div>
             <Link
               href="/stay"
-              className="text-xs font-bold uppercase tracking-widest text-[#C5A059] hover:underline inline-flex items-center gap-1.5"
+              className="text-xs font-bold uppercase tracking-widest text-canva-camel hover:underline inline-flex items-center gap-1.5"
             >
               <span>Full Stay Specifications</span>
               <ArrowRight className="h-3.5 w-3.5" />
@@ -286,27 +300,29 @@ export default async function HomePage() {
         </ScrollReveal>
 
         <StaggerContainer className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {settings.facilities.map((facility) => (
-            <StaggerItem key={facility.id} className="h-full">
-              <div className="glass-card interactive-card group rounded-[26px] p-6 h-full flex flex-col justify-between border border-[#C5A059]/15 hover:border-[#C5A059]/40 transition-all duration-300">
-                <div>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#070D18] text-[#C5A059] border border-[#C5A059]/25 transition-transform duration-300 group-hover:scale-110 shadow-sm">
-                    <FacilityIcon icon={facility.icon} />
+          {settings.facilities
+            .filter((facility) => facility.isVisible !== false)
+            .map((facility) => (
+              <StaggerItem key={facility.id} className="h-full">
+                <div className="glass-card interactive-card group rounded-[26px] p-6 h-full flex flex-col justify-between border border-canva-camel/15 hover:border-canva-camel/40 transition-all duration-300">
+                  <div>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-canva-forest text-canva-camel border border-canva-camel/25 shadow-sm transition-transform duration-300 group-hover:scale-110">
+                      <FacilityIcon icon={facility.icon} />
+                    </div>
+                    <h3 className="mt-4 font-serif text-lg sm:text-xl font-bold text-eden-ink">
+                      {facility.title}
+                    </h3>
+                    <p className="mt-2 text-xs sm:text-sm leading-relaxed text-eden-muted">
+                      {facility.description}
+                    </p>
                   </div>
-                  <h3 className="mt-4 font-serif text-lg sm:text-xl font-bold text-eden-ink">
-                    {facility.title}
-                  </h3>
-                  <p className="mt-2 text-xs sm:text-sm leading-relaxed text-eden-muted">
-                    {facility.description}
-                  </p>
                 </div>
-              </div>
-            </StaggerItem>
-          ))}
+              </StaggerItem>
+            ))}
         </StaggerContainer>
       </section>
 
-      {/* 5. GUEST EXPERIENCES */}
+      {/* 5. GUEST EXPERIENCES (Matching Canva Section 7 'Make new memories with our bespoke experiences') */}
       {homepage?.sectionsVisibility.experiences !== false && (
         <ScrollReveal>
           <GuestExperiencesSection experiences={homepage?.experiences} />
@@ -316,9 +332,9 @@ export default async function HomePage() {
       {/* 6. EDITORIAL PHOTO GALLERY PREVIEW */}
       <section className="space-y-6">
         <ScrollReveal>
-          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-[#C5A059]/20 pb-4">
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-canva-camel/20 pb-4">
             <div>
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#C5A059] block mb-1">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-canva-camel block mb-1">
                 Visual Journey
               </span>
               <h2 className="font-serif text-3xl sm:text-4xl font-medium tracking-tight text-eden-ink">
@@ -342,10 +358,10 @@ export default async function HomePage() {
 
       {/* 7. EXPLORE MURUDESHWAR & THE COAST TEASER */}
       <ScrollReveal>
-        <div className="overflow-hidden rounded-[32px] border border-[#C5A059]/30 bg-[#070D18] p-6 sm:p-10 lg:p-12 text-white shadow-2xl">
+        <div className="overflow-hidden rounded-[32px] border border-canva-camel/30 bg-canva-forest p-6 sm:p-10 lg:p-12 text-white shadow-2xl">
           <div className="flex flex-wrap items-end justify-between gap-4 border-b border-white/10 pb-6">
             <div>
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-[#C5A059]">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.2em] text-canva-camel">
                 <Compass className="h-3.5 w-3.5" />
                 Regional Travel Guide
               </span>
@@ -353,7 +369,10 @@ export default async function HomePage() {
                 Explore the Coast: Bailur to Gokarna
               </h2>
               <p className="mt-2 max-w-2xl text-xs sm:text-sm text-[#F5F2EB]/80 leading-relaxed">
-                Use The Eden Beach Home Stay in Bailur as your tranquil coastal base. Explore Tudalli Beach right outside, the Murudeshwar temple promontory (~3.8 km north), offshore Netrani Island, backwaters, and scenic bays.
+                Use The Eden Beach Home Stay in Bailur as your tranquil coastal
+                base. Explore Tudalli Beach right outside, the Murudeshwar temple
+                promontory (~3.8 km north), offshore Netrani Island, backwaters,
+                and scenic bays.
               </p>
             </div>
             <Link
@@ -388,7 +407,7 @@ export default async function HomePage() {
                         {dest === "Murdeshwar" ? "Murudeshwar & Bailur" : dest}
                       </div>
                       {sampleSpot && (
-                        <div className="truncate text-[10px] text-[#C5A059] font-semibold mt-0.5">
+                        <div className="truncate text-[10px] text-canva-camel font-semibold mt-0.5">
                           {sampleSpot.spotName}
                         </div>
                       )}
@@ -403,36 +422,44 @@ export default async function HomePage() {
 
       {/* 8. DIRECT BOOKING ENQUIRY SECTION */}
       <ScrollReveal className="scroll-mt-24" id="enquire">
-        <div className="overflow-hidden rounded-[32px] border border-[#C5A059]/25 bg-white dark:bg-[#0E1829] p-6 sm:p-10 lg:p-14 shadow-2xl">
+        <div className="overflow-hidden rounded-[32px] border border-canva-camel/25 bg-white dark:bg-canva-forest p-6 sm:p-10 lg:p-14 shadow-2xl">
           <div className="grid gap-8 lg:grid-cols-12 lg:gap-12">
             <div className="lg:col-span-5 flex flex-col justify-between">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C5A059] block mb-1">
+                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-canva-camel block mb-1">
                   Reservations & Inquiries
                 </span>
                 <h2 className="font-serif text-3xl sm:text-4xl font-medium tracking-tight text-eden-ink">
                   Ask for Availability & Personal Quote
                 </h2>
                 <p className="mt-3 text-xs sm:text-sm leading-relaxed text-eden-muted">
-                  Send your preferred dates, party size (1–4 guests), and chosen package. There is no automated checkout or hidden charges — the host connects directly with personal availability and a custom quote.
+                  Send your preferred dates, party size (1–4 guests), and chosen
+                  package. There is no automated checkout or hidden charges —
+                  the host connects directly with personal availability and a
+                  custom quote.
                 </p>
 
                 <div className="mt-6 space-y-3 rounded-2xl bg-eden-inset p-5 text-xs text-eden-ink border border-eden-line/40">
                   <div>
-                    <span className="font-bold text-[#C5A059]">Property: </span>
+                    <span className="font-bold text-canva-camel">Property: </span>
                     {settings.businessName}
                   </div>
                   <div>
-                    <span className="font-bold text-[#C5A059]">Location: </span>
-                    Intersection of Bailur Beach Road, Christiankeri, Bailur, Murudeshwar 581350
+                    <span className="font-bold text-canva-camel">Location: </span>
+                    {settings.addressLine}
                   </div>
                   <div>
-                    <span className="font-bold text-[#C5A059]">Accommodation: </span>
-                    One private beachfront room • 2 main beds + up to 2 add-on beds • Max 4 guests
+                    <span className="font-bold text-canva-camel">
+                      Accommodation:{" "}
+                    </span>
+                    {primaryRoom?.name || "One private beachfront room"} •{" "}
+                    {primaryRoom?.bedInfo ||
+                      "2 main beds + up to 2 add-on beds"}{" "}
+                    • Max {primaryRoom?.capacityGuests || 4} guests
                   </div>
                   <div>
-                    <span className="font-bold text-[#C5A059]">Tariffs: </span>
-                    Provided upon enquiry only
+                    <span className="font-bold text-canva-camel">Tariffs: </span>
+                    {primaryRoom?.pricingNote || "Provided upon enquiry only"}
                   </div>
                 </div>
               </div>
