@@ -1,5 +1,7 @@
 import { sql } from "drizzle-orm";
 import type { getDb } from "./index";
+import { themes, themeSettings } from "./schema";
+import { DEFAULT_THEMES } from "./defaults";
 
 let hasMigrated = false;
 
@@ -117,6 +119,67 @@ export async function ensureCmsTablesExist(db: ReturnType<typeof getDb>) {
       );
     `
   );
+
+  // 6. themes table
+  await executeSafe(
+    db,
+    sql`
+      CREATE TABLE IF NOT EXISTS themes (
+        id TEXT PRIMARY KEY,
+        name TEXT NOT NULL,
+        description TEXT NOT NULL,
+        category TEXT NOT NULL DEFAULT 'preset',
+        colors_json JSONB NOT NULL,
+        typography_json JSONB NOT NULL,
+        button_style_json JSONB NOT NULL,
+        decorations_json JSONB NOT NULL,
+        is_custom BOOLEAN NOT NULL DEFAULT false,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+    `
+  );
+
+  // 7. theme_settings table
+  await executeSafe(
+    db,
+    sql`
+      CREATE TABLE IF NOT EXISTS theme_settings (
+        id INTEGER PRIMARY KEY DEFAULT 1,
+        active_theme_id TEXT NOT NULL DEFAULT 'default',
+        manual_override BOOLEAN NOT NULL DEFAULT true,
+        scheduled_theme_id TEXT,
+        schedule_start_date TEXT,
+        schedule_end_date TEXT,
+        return_to_theme_id TEXT NOT NULL DEFAULT 'default',
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+      );
+    `
+  );
+
+  // 8. Baseline Data Seeding for themes (if empty)
+  try {
+    const [themeCount] = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(themes);
+    if (Number(themeCount?.count || 0) === 0) {
+      for (const t of DEFAULT_THEMES) {
+        await db.insert(themes).values({
+          id: t.id,
+          name: t.name,
+          description: t.description,
+          category: t.category,
+          colorsJson: t.colors,
+          typographyJson: t.typography,
+          buttonStyleJson: t.buttonStyle,
+          decorationsJson: t.decorations,
+          isCustom: t.isCustom,
+        });
+      }
+    }
+  } catch {
+    // Fail gracefully on read-only or restricted environments
+  }
 
   hasMigrated = true;
 }

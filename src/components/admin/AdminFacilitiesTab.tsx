@@ -25,12 +25,14 @@ import type { PublicSiteSettings } from "@/db/defaults";
 import { FacilityIcon } from "@/components/FacilityIcon";
 
 const ICON_OPTIONS: Array<{ id: FacilityItem["icon"]; label: string }> = [
-  { id: "waves", label: "Waves / Ocean" },
-  { id: "bed", label: "Bed / Sleeping" },
-  { id: "users", label: "Users / Guests" },
-  { id: "ac", label: "Air Conditioning" },
-  { id: "wifi", label: "Wi-Fi" },
-  { id: "bath", label: "Bathroom" },
+  { id: "waves", label: "Beach / Waves (Waves icon)" },
+  { id: "parking", label: "Parking (Circle P icon)" },
+  { id: "car", label: "Car / Vehicle (Car icon)" },
+  { id: "ac", label: "Air Conditioning (Snowflake icon)" },
+  { id: "wifi", label: "Wi-Fi (Wireless icon)" },
+  { id: "bath", label: "Private Bathroom (Bath icon)" },
+  { id: "bed", label: "Bed / Sleeping (Bed icon)" },
+  { id: "users", label: "Guests / Capacity (Users icon)" },
 ];
 
 export function AdminFacilitiesTab({

@@ -1,6 +1,8 @@
 import {
   Bath,
   BedDouble,
+  Car,
+  ParkingCircle,
   Snowflake,
   Users,
   Waves,
@@ -26,6 +28,11 @@ export function FacilityIcon({
       return <BedDouble className={className} />;
     case "users":
       return <Users className={className} />;
+    case "parking":
+      return <ParkingCircle className={className} />;
+    case "car":
+      return <Car className={className} />;
+    case "beach":
     case "waves":
     default:
       return <Waves className={className} />;

@@ -8,6 +8,8 @@ import type {
   PublicRoomItem,
   PublicSeoSettings,
   PublicSiteSettings,
+  PublicThemeItem,
+  PublicThemeSettings,
 } from "@/db/defaults";
 
 export type AdminEnquiryRow = {
@@ -40,5 +42,7 @@ export type AdminInitialData = {
   media: PublicMediaItem[];
   about: PublicAboutContent;
   seo: PublicSeoSettings;
+  themes: PublicThemeItem[];
+  themeSettings: PublicThemeSettings;
 };
 

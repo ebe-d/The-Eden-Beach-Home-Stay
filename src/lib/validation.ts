@@ -109,7 +109,18 @@ export const facilityItemSchema = z.object({
   id: z.string().trim().min(1).max(60),
   title: z.string().trim().min(2).max(120),
   description: z.string().trim().min(4).max(500),
-  icon: z.enum(["ac", "wifi", "bath", "bed", "users", "waves"]),
+  icon: z.enum([
+    "ac",
+    "wifi",
+    "bath",
+    "bed",
+    "users",
+    "waves",
+    "beach",
+    "parking",
+    "car",
+  ]),
+  isVisible: z.boolean().default(true).optional(),
 });
 
 export const packageItemSchema = z.object({
@@ -223,4 +234,81 @@ function nextIsoDay(iso: string): string {
   d.setUTCDate(d.getUTCDate() + 1);
   return d.toISOString().slice(0, 10);
 }
+
+const colorValueSchema = z.string().trim().min(2).max(50);
+
+export const themeColorsSchema = z.object({
+  primary: colorValueSchema,
+  secondary: colorValueSchema,
+  accent: colorValueSchema,
+  accentHover: colorValueSchema.optional(),
+  background: colorValueSchema,
+  surface: colorValueSchema,
+  surfaceElevated: colorValueSchema.optional(),
+  text: colorValueSchema,
+  mutedText: colorValueSchema,
+  buttonBg: colorValueSchema.optional(),
+  buttonText: colorValueSchema.default("#FFFFFF"),
+  buttonHoverBg: colorValueSchema.optional(),
+  borderColor: colorValueSchema,
+});
+
+export const themeTypographySchema = z.object({
+  headingFont: z.enum(["cormorant", "playfair", "serif", "sans"]).default("cormorant"),
+  headingLetterSpacing: z.enum(["normal", "tight", "wide"]).default("normal"),
+});
+
+export const themeButtonStyleSchema = z.object({
+  buttonRadius: z.enum(["4px", "8px", "12px", "9999px"]).default("4px"),
+  buttonStyle: z.enum(["solid", "elevated", "outlined"]).default("solid"),
+});
+
+export const themeDecorationsSchema = z.object({
+  enabled: z.boolean().default(false),
+  type: z
+    .enum([
+      "none",
+      "diwali-diyas",
+      "christmas-pine",
+      "newyear-sparkles",
+      "holi-colours",
+      "summer-waves",
+      "monsoon-raindrops",
+      "winter-warmth",
+    ])
+    .default("none"),
+  subtleBanner: z.boolean().default(false),
+  festiveGreeting: z.string().trim().max(160).optional(),
+});
+
+export const themeItemSchema = z.object({
+  id: z.string().trim().min(1).max(60),
+  name: z.string().trim().min(2).max(100),
+  description: z.string().trim().min(4).max(500),
+  category: z.enum(["preset", "festival", "season", "custom"]).default("custom"),
+  colors: themeColorsSchema,
+  typography: themeTypographySchema.default({
+    headingFont: "cormorant",
+    headingLetterSpacing: "normal",
+  }),
+  buttonStyle: themeButtonStyleSchema.default({
+    buttonRadius: "4px",
+    buttonStyle: "solid",
+  }),
+  decorations: themeDecorationsSchema.default({
+    enabled: false,
+    type: "none",
+    subtleBanner: false,
+  }),
+  isCustom: z.boolean().default(true),
+});
+
+export const themeSettingsUpdateSchema = z.object({
+  activeThemeId: z.string().trim().min(1).max(60),
+  manualOverride: z.boolean().default(true),
+  scheduledThemeId: z.string().trim().max(60).nullable().optional(),
+  scheduleStartDate: z.string().trim().max(60).nullable().optional(),
+  scheduleEndDate: z.string().trim().max(60).nullable().optional(),
+  returnToThemeId: z.string().trim().min(1).max(60).default("default"),
+});
 

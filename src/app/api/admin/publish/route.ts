@@ -17,6 +17,7 @@ export async function POST() {
   revalidateTag(CACHE_TAGS.about, { expire: 0 });
   revalidateTag(CACHE_TAGS.seo, { expire: 0 });
   revalidateTag(CACHE_TAGS.media, { expire: 0 });
+  revalidateTag(CACHE_TAGS.theme, { expire: 0 });
 
   return NextResponse.json({
     success: true,
