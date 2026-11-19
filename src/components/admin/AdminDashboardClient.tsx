@@ -17,6 +17,7 @@ import {
   Loader2,
   LogOut,
   MapPin,
+  Palette,
   RefreshCw,
   Search,
   Settings,
@@ -36,6 +37,7 @@ import { AdminOverviewTab } from "./AdminOverviewTab";
 import { AdminRoomsTab } from "./AdminRoomsTab";
 import { AdminSeoTab } from "./AdminSeoTab";
 import { AdminSettingsTab } from "./AdminSettingsTab";
+import { AdminThemesTab } from "./AdminThemesTab";
 import type { AdminInitialData } from "./types";
 
 export type AdminTab =
@@ -49,6 +51,7 @@ export type AdminTab =
   | "contact"
   | "settings"
   | "seo"
+  | "themes"
   | "enquiries"
   | "availability"
   | "gallery";
@@ -70,6 +73,8 @@ export function AdminDashboardClient({
   const [media, setMedia] = useState(initialData.media);
   const [about, setAbout] = useState(initialData.about);
   const [seo, setSeo] = useState(initialData.seo);
+  const [themes, setThemes] = useState(initialData.themes || []);
+  const [themeSettings, setThemeSettings] = useState(initialData.themeSettings);
 
   const [feedback, setFeedback] = useState<{
     msg: string;
@@ -139,6 +144,7 @@ export function AdminDashboardClient({
     { id: "contact", label: "Contact & Location", icon: MapPin },
     { id: "settings", label: "Packages & Settings", icon: Settings },
     { id: "seo", label: "SEO Manager", icon: Search },
+    { id: "themes", label: "Themes & Seasons", icon: Palette, badge: themes.length },
     {
       id: "enquiries",
       label: "Enquiries",
@@ -352,6 +358,13 @@ export function AdminDashboardClient({
           <AdminSeoTab
             initialSeo={seo}
             mediaItems={media}
+            onFeedback={notify}
+          />
+        )}
+        {activeTab === "themes" && (
+          <AdminThemesTab
+            themes={themes}
+            themeSettings={themeSettings}
             onFeedback={notify}
           />
         )}

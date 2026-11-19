@@ -18,6 +18,8 @@ import {
   readMediaItemsUncached,
   readSeoSettingsUncached,
   readSiteSettingsUncached,
+  readThemesUncached,
+  readThemeSettingsUncached,
 } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -76,6 +78,8 @@ async function AdminWorkspaceLoader() {
     media,
     about,
     seo,
+    themesList,
+    themeSettingsData,
   ] = await Promise.all([
     getAdminEnquiries(),
     readSiteSettingsUncached(),
@@ -87,6 +91,8 @@ async function AdminWorkspaceLoader() {
     readMediaItemsUncached(),
     readAboutContentUncached(),
     readSeoSettingsUncached(),
+    readThemesUncached(),
+    readThemeSettingsUncached(),
   ]);
 
   return (
@@ -107,6 +113,8 @@ async function AdminWorkspaceLoader() {
         media,
         about,
         seo,
+        themes: themesList,
+        themeSettings: themeSettingsData,
       }}
     />
   );

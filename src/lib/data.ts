@@ -10,6 +10,8 @@ import {
   DEFAULT_ROOMS,
   DEFAULT_SEO_SETTINGS,
   DEFAULT_SITE_SETTINGS,
+  DEFAULT_THEMES,
+  DEFAULT_THEME_SETTINGS,
   type PublicAboutContent,
   type PublicAvailabilityBlock,
   type PublicCoastGuideSpot,
@@ -19,6 +21,8 @@ import {
   type PublicRoomItem,
   type PublicSeoSettings,
   type PublicSiteSettings,
+  type PublicThemeItem,
+  type PublicThemeSettings,
 } from "@/db/defaults";
 import {
   aboutContent,
@@ -31,9 +35,12 @@ import {
   rooms,
   seoSettings,
   siteSettings,
+  themeSettings,
+  themes,
   type CoastDestination,
   type GalleryCategory,
 } from "@/db/schema";
+import { resolveEffectiveThemeId } from "./theme-utils";
 
 export const CACHE_TAGS = {
   settings: "site-settings",
@@ -45,6 +52,7 @@ export const CACHE_TAGS = {
   about: "about",
   seo: "seo",
   media: "media",
+  theme: "theme",
 } as const;
 
 export async function getSiteSettings(): Promise<PublicSiteSettings> {
@@ -564,4 +572,118 @@ export async function readMediaItemsUncached(): Promise<PublicMediaItem[]> {
   } catch {
     return [];
   }
+}
+
+export async function getThemes(): Promise<PublicThemeItem[]> {
+  "use cache";
+  cacheTag(CACHE_TAGS.theme);
+  cacheLife("minutes");
+
+  return readThemesUncached();
+}
+
+export async function readThemesUncached(): Promise<PublicThemeItem[]> {
+  if (!isDatabaseConfigured()) {
+    return DEFAULT_THEMES;
+  }
+
+  try {
+    const db = getDb();
+    await ensureCmsTablesExist(db);
+    const rows = await db.select().from(themes);
+
+    if (rows.length === 0) {
+      return DEFAULT_THEMES;
+    }
+
+    const dbThemeMap = new Map<string, PublicThemeItem>();
+    for (const r of rows) {
+      dbThemeMap.set(r.id, {
+        id: r.id,
+        name: r.name,
+        description: r.description,
+        category: (r.category as PublicThemeItem["category"]) || "custom",
+        colors: r.colorsJson,
+        typography: r.typographyJson,
+        buttonStyle: r.buttonStyleJson,
+        decorations: r.decorationsJson,
+        isCustom: r.isCustom,
+        createdAt: r.createdAt.toISOString(),
+        updatedAt: r.updatedAt.toISOString(),
+      });
+    }
+
+    const combined: PublicThemeItem[] = [];
+    for (const preset of DEFAULT_THEMES) {
+      if (dbThemeMap.has(preset.id)) {
+        combined.push(dbThemeMap.get(preset.id)!);
+        dbThemeMap.delete(preset.id);
+      } else {
+        combined.push(preset);
+      }
+    }
+
+    for (const customTheme of dbThemeMap.values()) {
+      combined.push(customTheme);
+    }
+
+    return combined;
+  } catch {
+    return DEFAULT_THEMES;
+  }
+}
+
+export async function getThemeSettings(): Promise<PublicThemeSettings> {
+  "use cache";
+  cacheTag(CACHE_TAGS.theme);
+  cacheLife("minutes");
+
+  return readThemeSettingsUncached();
+}
+
+export async function readThemeSettingsUncached(): Promise<PublicThemeSettings> {
+  if (!isDatabaseConfigured()) {
+    return DEFAULT_THEME_SETTINGS;
+  }
+
+  try {
+    const db = getDb();
+    await ensureCmsTablesExist(db);
+    const [row] = await db.select().from(themeSettings).where(eq(themeSettings.id, 1)).limit(1);
+
+    if (!row) {
+      return DEFAULT_THEME_SETTINGS;
+    }
+
+    return {
+      activeThemeId: row.activeThemeId,
+      manualOverride: row.manualOverride,
+      scheduledThemeId: row.scheduledThemeId,
+      scheduleStartDate: row.scheduleStartDate,
+      scheduleEndDate: row.scheduleEndDate,
+      returnToThemeId: row.returnToThemeId,
+      updatedAt: row.updatedAt.toISOString(),
+    };
+  } catch {
+    return DEFAULT_THEME_SETTINGS;
+  }
+}
+
+export async function getActiveThemeConfig(): Promise<PublicThemeItem> {
+  "use cache";
+  cacheTag(CACHE_TAGS.theme);
+  cacheLife("minutes");
+
+  return readActiveThemeConfigUncached();
+}
+
+export async function readActiveThemeConfigUncached(): Promise<PublicThemeItem> {
+  const [themesList, settings] = await Promise.all([
+    readThemesUncached(),
+    readThemeSettingsUncached(),
+  ]);
+
+  const effectiveId = resolveEffectiveThemeId(settings);
+  const matched = themesList.find((t) => t.id === effectiveId);
+  return matched || themesList[0] || DEFAULT_THEMES[0];
 }

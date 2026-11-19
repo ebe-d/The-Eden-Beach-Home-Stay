@@ -12,7 +12,8 @@ export type FacilityItem = {
   id: string;
   title: string;
   description: string;
-  icon: "ac" | "wifi" | "bath" | "bed" | "users" | "waves";
+  icon: "ac" | "wifi" | "bath" | "bed" | "users" | "waves" | "beach" | "parking" | "car";
+  isVisible?: boolean;
 };
 
 export type PackageItem = {
@@ -242,6 +243,86 @@ export const seoSettings = pgTable("seo_settings", {
   ogDescription: text("og_description").notNull().default(""),
   ogImageUrl: text("og_image_url").notNull().default(""),
   canonicalUrl: text("canonical_url").notNull().default(""),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export type ThemeColors = {
+  primary: string;
+  secondary: string;
+  accent: string;
+  accentHover?: string;
+  background: string;
+  surface: string;
+  surfaceElevated?: string;
+  text: string;
+  mutedText: string;
+  buttonBg?: string;
+  buttonText: string;
+  buttonHoverBg?: string;
+  borderColor: string;
+};
+
+export type ThemeTypography = {
+  headingFont: "cormorant" | "playfair" | "serif" | "sans";
+  headingLetterSpacing: "normal" | "tight" | "wide";
+};
+
+export type ThemeButtonStyle = {
+  buttonRadius: "4px" | "8px" | "12px" | "9999px";
+  buttonStyle: "solid" | "elevated" | "outlined";
+};
+
+export type ThemeDecorations = {
+  enabled: boolean;
+  type:
+    | "none"
+    | "diwali-diyas"
+    | "christmas-pine"
+    | "newyear-sparkles"
+    | "holi-colours"
+    | "summer-waves"
+    | "monsoon-raindrops"
+    | "winter-warmth";
+  subtleBanner: boolean;
+  festiveGreeting?: string;
+};
+
+export type ThemeItem = {
+  id: string;
+  name: string;
+  description: string;
+  category: "preset" | "festival" | "season" | "custom";
+  colors: ThemeColors;
+  typography: ThemeTypography;
+  buttonStyle: ThemeButtonStyle;
+  decorations: ThemeDecorations;
+  isCustom: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
+export const themes = pgTable("themes", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  category: text("category").notNull().default("preset"),
+  colorsJson: jsonb("colors_json").$type<ThemeColors>().notNull(),
+  typographyJson: jsonb("typography_json").$type<ThemeTypography>().notNull(),
+  buttonStyleJson: jsonb("button_style_json").$type<ThemeButtonStyle>().notNull(),
+  decorationsJson: jsonb("decorations_json").$type<ThemeDecorations>().notNull(),
+  isCustom: boolean("is_custom").notNull().default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const themeSettings = pgTable("theme_settings", {
+  id: integer("id").primaryKey().default(1),
+  activeThemeId: text("active_theme_id").notNull().default("default"),
+  manualOverride: boolean("manual_override").notNull().default(true),
+  scheduledThemeId: text("scheduled_theme_id"),
+  scheduleStartDate: text("schedule_start_date"),
+  scheduleEndDate: text("schedule_end_date"),
+  returnToThemeId: text("return_to_theme_id").notNull().default("default"),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
