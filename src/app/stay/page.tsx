@@ -151,7 +151,9 @@ export default async function StayPage() {
           </h2>
         </ScrollReveal>
         <StaggerContainer className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {settings.facilities.map((facility) => (
+          {settings.facilities
+            .filter((facility) => facility.isVisible !== false)
+            .map((facility) => (
             <StaggerItem key={facility.id} className="h-full">
               <div className="glass-card interactive-card group rounded-[24px] p-5 h-full">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-eden-inset text-eden-ink transition-transform duration-300 group-hover:scale-110">

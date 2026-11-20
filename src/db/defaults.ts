@@ -6,6 +6,7 @@ import type {
   HeroSlide,
   PackageItem,
   SectionVisibility,
+  ThemeItem,
 } from "./schema";
 
 export type PublicSiteSettings = {
@@ -128,6 +129,7 @@ export const DEFAULT_FACILITIES: FacilityItem[] = [
     description:
       "Your stay is reserved exclusively for one group at a time in a single private beachfront room — calm, unhurried, and intimate.",
     icon: "waves",
+    isVisible: true,
   },
   {
     id: "sleeping-beds",
@@ -135,6 +137,7 @@ export const DEFAULT_FACILITIES: FacilityItem[] = [
     description:
       "Configured comfortably with two main beds, plus up to two optional add-on beds arranged on request.",
     icon: "bed",
+    isVisible: true,
   },
   {
     id: "max-guests",
@@ -142,6 +145,7 @@ export const DEFAULT_FACILITIES: FacilityItem[] = [
     description:
       "Ideal for couples, small families, or close friends with a strict capacity of up to four guests.",
     icon: "users",
+    isVisible: true,
   },
   {
     id: "air-conditioning",
@@ -149,6 +153,7 @@ export const DEFAULT_FACILITIES: FacilityItem[] = [
     description:
       "Cool, restful comfort indoors after warm coastal afternoons by the Arabian Sea.",
     icon: "ac",
+    isVisible: true,
   },
   {
     id: "wifi",
@@ -156,6 +161,7 @@ export const DEFAULT_FACILITIES: FacilityItem[] = [
     description:
       "Stay connected during your coastal retreat, whether planning nearby outings or checking in remotely.",
     icon: "wifi",
+    isVisible: true,
   },
   {
     id: "private-bathroom",
@@ -163,6 +169,23 @@ export const DEFAULT_FACILITIES: FacilityItem[] = [
     description:
       "Clean, dedicated private bathroom attached exclusively to your room for complete comfort and privacy.",
     icon: "bath",
+    isVisible: true,
+  },
+  {
+    id: "beach-access-24h",
+    title: "Private Beach Access – 24 Hours",
+    description:
+      "Enjoy convenient access to the private beach at any time, 24 hours a day.",
+    icon: "waves",
+    isVisible: true,
+  },
+  {
+    id: "free-parking",
+    title: "Free Parking",
+    description:
+      "Complimentary parking is available for guests staying at The Eden Beach Home Stay.",
+    icon: "parking",
+    isVisible: true,
   },
 ];
 
@@ -743,5 +766,280 @@ export const DEFAULT_SEO_SETTINGS: PublicSeoSettings = {
     "Stay by the sea. Slow down. Make memories. One exclusive private room on the shores of Bailur, Murudeshwar.",
   ogImageUrl: HERO_STOCK_IMAGE,
   canonicalUrl: "https://theedenbeachhomestay.com",
+};
+
+export type PublicThemeItem = ThemeItem;
+
+export type PublicThemeSettings = {
+  activeThemeId: string;
+  manualOverride: boolean;
+  scheduledThemeId: string | null;
+  scheduleStartDate: string | null;
+  scheduleEndDate: string | null;
+  returnToThemeId: string;
+  updatedAt: string;
+};
+
+export const DEFAULT_THEMES: ThemeItem[] = [
+  {
+    id: "default",
+    name: "Default – Oceanic Navy & Embossed Gold",
+    description:
+      "Permanent homestay branding: oceanic midnight navy, luxury embossed gold, sunlit warm sand, and crisp white accents.",
+    category: "preset",
+    colors: {
+      primary: "#0b1320",
+      secondary: "#0e1829",
+      accent: "#c5a059",
+      accentHover: "#dfba73",
+      background: "#faf7f2",
+      surface: "#ffffff",
+      surfaceElevated: "#f3ede2",
+      text: "#0b1320",
+      mutedText: "#5e6f88",
+      buttonBg: "#b88e3e",
+      buttonText: "#ffffff",
+      buttonHoverBg: "#9e772e",
+      borderColor: "rgba(197, 160, 89, 0.26)",
+    },
+    typography: { headingFont: "cormorant", headingLetterSpacing: "normal" },
+    buttonStyle: { buttonRadius: "4px", buttonStyle: "solid" },
+    decorations: { enabled: false, type: "none", subtleBanner: false },
+    isCustom: false,
+  },
+  {
+    id: "diwali",
+    name: "Diwali – Festival of Lights",
+    description:
+      "Warm amber, deep bronze, radiant celebration gold, and glowing diya accents celebrating the victory of light.",
+    category: "festival",
+    colors: {
+      primary: "#2B1705",
+      secondary: "#5A330B",
+      accent: "#D49A3D",
+      accentHover: "#BA7F25",
+      background: "#FAF5EC",
+      surface: "#FFFFFF",
+      surfaceElevated: "#F4EBDB",
+      text: "#231709",
+      mutedText: "#6E553F",
+      buttonBg: "#D49A3D",
+      buttonText: "#FFFFFF",
+      buttonHoverBg: "#BA7F25",
+      borderColor: "rgba(212, 154, 61, 0.22)",
+    },
+    typography: { headingFont: "cormorant", headingLetterSpacing: "normal" },
+    buttonStyle: { buttonRadius: "8px", buttonStyle: "elevated" },
+    decorations: {
+      enabled: true,
+      type: "diwali-diyas",
+      subtleBanner: true,
+      festiveGreeting:
+        "Shubh Deepavali • May the Divine Light Bring Joy & Peace by the Sea",
+    },
+    isCustom: false,
+  },
+  {
+    id: "christmas",
+    name: "Christmas – Coastal Pine & Berry",
+    description:
+      "Deep pine forest green, rich linen cream, muted holiday berry red, and warm star gold accents.",
+    category: "festival",
+    colors: {
+      primary: "#0A2315",
+      secondary: "#1E3F2B",
+      accent: "#C98B32",
+      accentHover: "#B0741E",
+      background: "#FBF9F5",
+      surface: "#FFFFFF",
+      surfaceElevated: "#F1EBE1",
+      text: "#132219",
+      mutedText: "#4E6556",
+      buttonBg: "#A8383B",
+      buttonText: "#FFFFFF",
+      buttonHoverBg: "#8F2A2D",
+      borderColor: "rgba(168, 56, 59, 0.2)",
+    },
+    typography: { headingFont: "cormorant", headingLetterSpacing: "normal" },
+    buttonStyle: { buttonRadius: "8px", buttonStyle: "solid" },
+    decorations: {
+      enabled: true,
+      type: "christmas-pine",
+      subtleBanner: true,
+      festiveGreeting:
+        "Merry Christmas & Season's Greetings from The Eden Beach Homestay",
+    },
+    isCustom: false,
+  },
+  {
+    id: "new-year",
+    name: "New Year – Midnight Sea & Champagne",
+    description:
+      "Midnight Arabian Sea navy, champagne celebration gold, and elegant starry night accents welcoming the new year.",
+    category: "festival",
+    colors: {
+      primary: "#08162B",
+      secondary: "#132644",
+      accent: "#D4AF37",
+      accentHover: "#BE9B2C",
+      background: "#F5F7FA",
+      surface: "#FFFFFF",
+      surfaceElevated: "#E8EDF5",
+      text: "#0B1A30",
+      mutedText: "#51627B",
+      buttonBg: "#D4AF37",
+      buttonText: "#08162B",
+      buttonHoverBg: "#C4A02F",
+      borderColor: "rgba(212, 175, 55, 0.22)",
+    },
+    typography: { headingFont: "cormorant", headingLetterSpacing: "wide" },
+    buttonStyle: { buttonRadius: "9999px", buttonStyle: "elevated" },
+    decorations: {
+      enabled: true,
+      type: "newyear-sparkles",
+      subtleBanner: true,
+      festiveGreeting:
+        "Happy New Year • Celebrate New Beginnings by the Arabian Sea",
+    },
+    isCustom: false,
+  },
+  {
+    id: "holi",
+    name: "Holi – Pastel Gulal & Coastal Spring",
+    description:
+      "Soft organic festival shades: warm marigold coral, gentle spring sage, and subtle colourful accents by the shore.",
+    category: "festival",
+    colors: {
+      primary: "#1B2A22",
+      secondary: "#354D3F",
+      accent: "#D96B43",
+      accentHover: "#C0552D",
+      background: "#FCF8F5",
+      surface: "#FFFFFF",
+      surfaceElevated: "#F7ECE5",
+      text: "#1E2521",
+      mutedText: "#5D6861",
+      buttonBg: "#D96B43",
+      buttonText: "#FFFFFF",
+      buttonHoverBg: "#C0552D",
+      borderColor: "rgba(217, 107, 67, 0.2)",
+    },
+    typography: { headingFont: "cormorant", headingLetterSpacing: "normal" },
+    buttonStyle: { buttonRadius: "8px", buttonStyle: "solid" },
+    decorations: {
+      enabled: true,
+      type: "holi-colours",
+      subtleBanner: true,
+      festiveGreeting:
+        "Happy Holi • Celebrate the Joyous Festival of Colours by the Coast",
+    },
+    isCustom: false,
+  },
+  {
+    id: "summer",
+    name: "Summer – Ocean Azure & Sun Sand",
+    description:
+      "Crisp ocean blue, sandy sun-bleached beige, gentle sea spray turquoise, and bright coastal sunshine.",
+    category: "season",
+    colors: {
+      primary: "#0C2B3B",
+      secondary: "#1E4E68",
+      accent: "#C28B47",
+      accentHover: "#AA7433",
+      background: "#F3F7FA",
+      surface: "#FFFFFF",
+      surfaceElevated: "#E3EEF5",
+      text: "#0E2330",
+      mutedText: "#4A6475",
+      buttonBg: "#1E4E68",
+      buttonText: "#FFFFFF",
+      buttonHoverBg: "#15394D",
+      borderColor: "rgba(30, 78, 104, 0.18)",
+    },
+    typography: { headingFont: "cormorant", headingLetterSpacing: "normal" },
+    buttonStyle: { buttonRadius: "4px", buttonStyle: "solid" },
+    decorations: {
+      enabled: true,
+      type: "summer-waves",
+      subtleBanner: false,
+      festiveGreeting:
+        "Summer by the Arabian Sea • Warm Sun, Soft Waves & Pure Serenity",
+    },
+    isCustom: false,
+  },
+  {
+    id: "monsoon",
+    name: "Monsoon – Rainforest & Mist",
+    description:
+      "Deep rainforest emerald, misty rain cloud slate, wet earth petrichor, and serene coastal rain rhythms.",
+    category: "season",
+    colors: {
+      primary: "#0F261C",
+      secondary: "#294336",
+      accent: "#7A9E77",
+      accentHover: "#668A63",
+      background: "#F0F4F2",
+      surface: "#FFFFFF",
+      surfaceElevated: "#E2EAE5",
+      text: "#15241C",
+      mutedText: "#4A5F53",
+      buttonBg: "#294336",
+      buttonText: "#FFFFFF",
+      buttonHoverBg: "#1F3429",
+      borderColor: "rgba(41, 67, 54, 0.2)",
+    },
+    typography: { headingFont: "cormorant", headingLetterSpacing: "normal" },
+    buttonStyle: { buttonRadius: "8px", buttonStyle: "solid" },
+    decorations: {
+      enabled: true,
+      type: "monsoon-raindrops",
+      subtleBanner: false,
+      festiveGreeting:
+        "Monsoon Season • Experience the Magic of Karnataka's Coastal Rains",
+    },
+    isCustom: false,
+  },
+  {
+    id: "winter",
+    name: "Winter – Cosy Cedar & Warm Cream",
+    description:
+      "Warm cashmere cream, roasted cedar driftwood, soft hearth amber, and peaceful winter seas.",
+    category: "season",
+    colors: {
+      primary: "#241812",
+      secondary: "#452F23",
+      accent: "#B8844F",
+      accentHover: "#9E6E3D",
+      background: "#F8F4EC",
+      surface: "#FFFFFF",
+      surfaceElevated: "#EFE6D7",
+      text: "#20150F",
+      mutedText: "#635147",
+      buttonBg: "#B8844F",
+      buttonText: "#FFFFFF",
+      buttonHoverBg: "#9E6E3D",
+      borderColor: "rgba(184, 132, 79, 0.22)",
+    },
+    typography: { headingFont: "cormorant", headingLetterSpacing: "normal" },
+    buttonStyle: { buttonRadius: "4px", buttonStyle: "solid" },
+    decorations: {
+      enabled: true,
+      type: "winter-warmth",
+      subtleBanner: false,
+      festiveGreeting:
+        "Winter Coastal Retreat • Calm Waters & Golden Sunsets",
+    },
+    isCustom: false,
+  },
+];
+
+export const DEFAULT_THEME_SETTINGS: PublicThemeSettings = {
+  activeThemeId: "default",
+  manualOverride: true,
+  scheduledThemeId: null,
+  scheduleStartDate: null,
+  scheduleEndDate: null,
+  returnToThemeId: "default",
+  updatedAt: "2026-11-18T00:00:00.000Z",
 };
 

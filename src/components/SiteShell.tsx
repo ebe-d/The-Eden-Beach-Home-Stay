@@ -138,7 +138,7 @@ export function SiteShell({
                     Location
                   </div>
                   <div className="whitespace-nowrap font-semibold text-eden-ink">
-                    Murdeshwar, 581350
+                    Murudeshwar, 581350
                   </div>
                 </div>
               </Link>
